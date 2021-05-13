@@ -144,11 +144,8 @@ func getMacAddrs() (macAddrs []string) {
 		macAddrs = append(macAddrs, macAddr)
 	}
 
-	if len(macAddrs) == 0 {
-		for i := 0; i < 5; i++ {
-			macAddrs = append(macAddrs, "nan")
-		}
-		return macAddrs
+	for i := 0; i < 5; i++ {
+		macAddrs = append(macAddrs, "nan")
 	}
 
 	return macAddrs
@@ -186,7 +183,6 @@ func Mac1Address() string {
 }
 
 func Mac2AddressMask() string {
-
 	return getMacAddrs()[1]
 }
 
