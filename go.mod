@@ -3,8 +3,10 @@ module golang
 go 1.15
 
 require (
+	github.com/distatus/battery v0.10.0
 	github.com/dselans/dmidecode v0.0.0-20180814053009-65c3f9d81910
 	github.com/faiface/pixel v0.10.0
+	github.com/go-vgo/robotgo v0.93.1
 	github.com/intel-go/cpuid v0.0.0-20200819041909-2aa72927c3e2
 	github.com/iris-contrib/go.uuid v2.0.0+incompatible // indirect
 	github.com/jaypipes/ghw v0.7.0
@@ -25,6 +27,7 @@ require (
 	golang.org/x/image v0.0.0-20210504121937-7319ad40d33e // indirect
 	golang.org/x/mobile v0.0.0-20210220033013-bdb1ca9a1e08 // indirect
 	golang.org/x/net v0.0.0-20210508051633-16afe75a6701 // indirect
-	golang.org/x/sys v0.0.0-20210507161434-a76c4d0a0096 // indirect
+	golang.org/x/sys v0.0.0-20210511113859-b0526f3d8744 // indirect
 	golang.org/x/tools v0.1.0 // indirect
+	howett.net/plist v0.0.0-20201203080718-1454fab16a06 // indirect
 )

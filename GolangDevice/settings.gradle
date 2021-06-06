@@ -1,0 +1,5 @@
+include ':cmodelAAR'
+include ':modelAAR'
+include ':model'
+include ':app'
+rootProject.name = "GolangDevice"

@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/distatus/battery"
 	"github.com/jaypipes/ghw"
-
 	"github.com/shirou/gopsutil/cpu"
 	// This is required to use H264 video encoder
 )
@@ -122,6 +122,32 @@ func CPUmhz() string {
 	}
 	hz := infos[0].Mhz
 	return fmt.Sprintf("%f", hz)
+}
+
+func Battery() {
+
+	batteries, err := battery.GetAll()
+	if err != nil {
+		fmt.Println("Could not get battery info!")
+		return
+	}
+	// for i, battery := range batteries {
+	// 	fmt.Printf("Bat%d: ", i)
+	// 	fmt.Printf("state: %s, ", battery.State.String())
+	// 	fmt.Printf("current capacity: %f mWh, ", battery.Current)
+	// 	fmt.Printf("last full capacity: %f mWh, ", battery.Full)
+	// 	fmt.Printf("design capacity: %f mWh, ", battery.Design)
+	// 	fmt.Printf("charge rate: %f mW, ", battery.ChargeRate)
+	// 	fmt.Printf("voltage: %f V, ", battery.Voltage)
+	// 	fmt.Printf("design voltage: %f V\n", battery.DesignVoltage)
+	// }
+
+	fmt.Printf("current capacity: %f mWh", batteries[0].Current)
+	fmt.Printf("last full capacity: %f mWh : ", batteries[0].Full)
+	// dictBattery := make(map[string]string)
+	// dictBattery["Brand"] =
+	// dictBattery["Brand"] =
+
 }
 
 // =================================1 mac address end=================================
@@ -259,6 +285,10 @@ func AndroidShellgetprop() string {
 		outputSerialNumber string
 		outputGPSVersion   string
 		outputISPName      string
+		outputDeviceid     string
+		outputWifimac      string
+		outputWifimac2     string
+		outputWigigmac     string
 	)
 	cmd0 := exec.Command("/system/bin/getprop", "ro.product.brand")
 
@@ -270,6 +300,11 @@ func AndroidShellgetprop() string {
 	cmd6 := exec.Command("/system/bin/getprop", "ro.serialno")
 	cmd7 := exec.Command("/system/bin/getprop", "gps.version.driver")
 	cmd8 := exec.Command("/system/bin/getprop", "gsm.operator.alpha")
+	cmd9 := exec.Command("/system/bin/getprop", "ro.deviceid")
+	cmd10 := exec.Command("/system/bin/getprop", "ro.wifimac")
+	cmd11 := exec.Command("/system/bin/getprop", "ro.wifimac_2")
+	cmd12 := exec.Command("/system/bin/getprop", "ro.wigigmac")
+
 	out0, err := cmd0.Output()
 	if err != nil {
 		log.Println("cmd brand.Run() failed with ", err)
@@ -341,6 +376,36 @@ func AndroidShellgetprop() string {
 	} else {
 		outputISPName = string(out8)
 	}
+
+	out9, err9 := cmd9.Output()
+	if err9 != nil {
+		log.Println("cmd Deviceid.Run() failed with ", err9)
+		outputDeviceid = "nan"
+	} else {
+		outputDeviceid = string(out9)
+	}
+	out10, err10 := cmd10.Output()
+	if err10 != nil {
+		log.Println("cmd Wifimac.Run() failed with ", err10)
+		outputWifimac = "nan"
+	} else {
+		outputWifimac = string(out10)
+	}
+	out11, err11 := cmd11.Output()
+	if err11 != nil {
+		log.Println("cmd Wifimac2.Run() failed with ", err11)
+		outputWifimac2 = "nan"
+	} else {
+		outputWifimac2 = string(out11)
+	}
+	out12, err12 := cmd12.Output()
+	if err12 != nil {
+		log.Println("cmd Wigigmac.Run() failed with ", err12)
+		outputWigigmac = "nan"
+	} else {
+		outputWigigmac = string(out12)
+	}
+
 	dictGetprop := make(map[string]string)
 	dictGetprop["Brand"] = strings.ReplaceAll(outputBrand, "\n", "")
 	dictGetprop["sdkVersion"] = strings.ReplaceAll(outputSdk, "\n", "")
@@ -351,6 +416,10 @@ func AndroidShellgetprop() string {
 	dictGetprop["DeviceSerialNumber"] = strings.ReplaceAll(outputSerialNumber, "\n", "")
 	dictGetprop["DeviceGPSVersion"] = strings.ReplaceAll(outputGPSVersion, "\n", "")
 	dictGetprop["ISPName"] = strings.ReplaceAll(outputISPName, "\n", "")
+	dictGetprop["Deviceid"] = strings.ReplaceAll(outputDeviceid, "\n", "")
+	dictGetprop["Wifimac"] = strings.ReplaceAll(outputWifimac, "\n", "")
+	dictGetprop["Wifimac2"] = strings.ReplaceAll(outputWifimac2, "\n", "")
+	dictGetprop["Wigigmac"] = strings.ReplaceAll(outputWigigmac, "\n", "")
 
 	jsonBytes, err := json.MarshalIndent(dictGetprop, "", "\t")
 	if err != nil {
@@ -367,7 +436,7 @@ func AndroidShellgetprop() string {
 func AndroidShellSreenSize() string {
 
 	var outputSreenSize string
-	cmd0 := exec.Command("/system/bin/dumpsys", "window")
+	cmd0 := exec.Command("/system/bin/dumpsys", "battery")
 	out0, err := cmd0.Output()
 	log.Println("cmd Sreen Size.Run() out0 ", out0)
 	if err != nil {
@@ -375,7 +444,7 @@ func AndroidShellSreenSize() string {
 		outputSreenSize = "nan"
 	} else {
 		// outputSreenSize = strings.ReplaceAll(strings.Split(string(out0), ":")[1], "	", "")
-		outputSreenSize = string(out0)
+		outputSreenSize = fmt.Sprintf("combined out:\n%s\n", string(out0))
 	}
 	return outputSreenSize
 }

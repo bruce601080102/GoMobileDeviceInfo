@@ -47,4 +47,7 @@ func main() {
 	Mac5AddressMask := model.Mac5AddressMask()
 	fmt.Println("16  Mac5AddressMask:", Mac5AddressMask)
 
+	// GetScreenSize := model.GetScreenSize()
+	// fmt.Println("17  GetScreenSize:", GetScreenSize)
+	model.Battery()
 }
