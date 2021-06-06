@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>GolangDevice</name>
-	<comment>Project GolangDevice created by Buildship.</comment>
+	<name>model</name>
+	<comment>Project model created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -16,7 +16,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1622959397604</id>
+			<id>1622959397624</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
